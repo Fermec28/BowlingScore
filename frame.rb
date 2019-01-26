@@ -6,10 +6,13 @@ class Frame
     def initialize(last_frame= false)
         @tries=[]
         @last_frame=last_frame
+        @type='normal'
     end
 
     def make_try(value)
         if self.can_make_try?
+            @type= "strike" if value==10 && @tries.length == 0
+            @type= "spare" if  @tries[0]!=10 && @tries.length >1 && (@tries[0].value + @tries[1].value==10)
             if @last_frame
                 if  (self.sum_triess % NUM_PINES == 0 && NUM_PINES - value >= 0)
                     @tries<< Try.new(value) 
